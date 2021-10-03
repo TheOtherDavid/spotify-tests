@@ -47,6 +47,11 @@ func main() {
 		tracks := getTracksFromPlaylist(ctx, client, playlist)
 		fmt.Println("Tracks retrieved:", tracks)
 
+		//Hardcode sample album ID
+		albumId := spotify.ID("0UK9cg0SGJmRXIvSAYkl70")
+		album := getAlbum(ctx, client, albumId)
+		fmt.Println("Album retrieved:", album)
+
 	}()
 
 	http.ListenAndServe(":8080", nil)
@@ -91,4 +96,15 @@ func getTracksFromPlaylist(ctx context.Context, client *spotify.Client, playlist
 
 	}
 	return tracks
+}
+
+func getAlbum(ctx context.Context, client *spotify.Client, albumId spotify.ID) *spotify.FullAlbum {
+	fmt.Println("Beginning getAlbum")
+	album, err := client.GetAlbum(ctx, albumId)
+
+	if err != nil {
+		fmt.Println(err.Error)
+	}
+	fmt.Println(album.ID)
+	return album
 }
