@@ -43,7 +43,9 @@ func main() {
 		playlistId := spotify.ID("06kZdWHb9ysIAn2GdFLUeC")
 		//client.GetPlaylist(ctx, id)
 		playlist := getPlaylist(ctx, client, playlistId)
+		fmt.Println("Playlist retrieved:", playlist)
 		tracks := getTracksFromPlaylist(ctx, client, playlist)
+		fmt.Println("Tracks retrieved:", tracks)
 
 	}()
 
@@ -81,6 +83,12 @@ func getPlaylist(ctx context.Context, client *spotify.Client, playlistId spotify
 }
 
 func getTracksFromPlaylist(ctx context.Context, client *spotify.Client, playlist *spotify.FullPlaylist) []spotify.FullTrack {
+	fmt.Println("Beginning getTracksFromPlaylist")
+	tracks := []spotify.FullTrack{}
+	playlistTracks := playlist.Tracks.Tracks
+	for _, playlistTrack := range playlistTracks {
+		tracks = append(tracks, playlistTrack.Track)
 
+	}
 	return tracks
 }
